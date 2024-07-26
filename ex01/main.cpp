@@ -57,10 +57,10 @@ void testFormSigning() {
     } catch (std::exception &e) {
         std::cout << "\033[1;31mExpected error:\033[0m " << e.what() << std::endl;
     }
-    std::cout << "After Billy attempts to sign Form 2: " << form2 << std::endl;
+    std::cout << "Billy signs Form 2 again:" << form2 << std::endl;
 
     tim.signForm(form);
-    std::cout << "After Tim signs Form 1 again: " << form << std::endl;
+    std::cout << "Tim signs Form 1 again: " << form << std::endl;
 }
 
 

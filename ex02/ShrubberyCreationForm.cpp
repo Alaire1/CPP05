@@ -2,22 +2,13 @@
 #include "ShrubberyCreationForm.hpp"
 
 ShrubberyCreationForm::ShrubberyCreationForm():
-        AForm::AForm("Shrubbery Creation Form",
-                     145,
-                     137,
-                     "undefined") {}
+        AForm::AForm("Shrubbery Creation Form", 145, 137, "undefined") {}
 
 ShrubberyCreationForm::ShrubberyCreationForm(std::string target):
-        AForm::AForm("Shrubbery Creation Form",
-                     145,
-                     137,
-                     target) {}
+        AForm::AForm("Shrubbery Creation Form", 145, 137, target) {}
 
 ShrubberyCreationForm::ShrubberyCreationForm(ShrubberyCreationForm const &src):
-        AForm::AForm(src.getName(),
-                     src.getRequiredSignGrade(),
-                     src.getRequiredExecuteGrade(),
-                     src.getTarget())
+        AForm::AForm(src.getName(), src.getRequiredSignGrade(), src.getRequiredExecuteGrade(), src.getTarget())
 {
     *this = src;
 }
@@ -33,26 +24,23 @@ ShrubberyCreationForm::~ShrubberyCreationForm() {}
 
 void ShrubberyCreationForm::beExecuted(Bureaucrat const &bureaucrat) {
     if (!getIsSigned()) {
-        std::cout << "This form is not yet signed." << std::endl;
+        std::cout << "This form is not signed" << std::endl;
         return;
     }
     if (bureaucrat.getGrade() <= getRequiredExecuteGrade()) {
         std::ofstream outfile(getTarget() + "_shrubbery");
         outfile <<
-                "            # #### ####\n"
-                "        ### \\/#|### |/####\n"
-                "        ##\\/#/ \\||/##/_/##/_#\n"
-                "       ###  \\/###|/ \\/ # ###\n"
-                "    ##_\\_#\\_\\## | #/###_/_####\n"
-                "    ## #### # \\ #| /  #### ##/##\n"
-                "    __#_--###`  |{,###---###-~\n"
-                "                \\ }{\n"
-                "                }}{\n"
-                "                }}{\n"
-                "       		 {{}\n"
-                "        , -=-~{ .-^- _\n"
-                "                `}\n"
-                "                 {"
+                "         ccee88oo\n"
+                "  C8O8O8Q8PoOb o8oo\n"
+                " dOB69QO8PdUOpugoO9bD\n"
+                "CgggbU8OU qOp qOdoUOdcb\n"
+                "    6OuU  /p u gcoUodpP\n"
+                "      \\\\//  /douUP\n"
+                "        \\\\////\n"
+                "         |||/\\\n"
+                "         |||\\/\n"
+                "         |||||\n"
+                "   .....//||||\\....\n"
                 << std::endl;
     }
     else

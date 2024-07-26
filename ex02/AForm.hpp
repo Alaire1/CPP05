@@ -19,11 +19,11 @@ private:
     void                _checkFormGrades();
 
 public:
-    AForm();
-    AForm(std::string const &name, int const requiredSignGrade, int const requiredExecuteGrade, std::string target);
-    AForm(AForm const &src);
-    AForm &operator=(AForm const &src);
-    virtual ~AForm();
+    AForm(); // Default constructor
+    AForm(std::string const &name, int const requiredSignGrade, int const requiredExecuteGrade, std::string target); // Parametric constructor
+    AForm(AForm const &src); // Copy constructor
+    AForm &operator=(AForm const &src); // Copy assignment operator
+    virtual ~AForm(); // Default destructor (virtual)
 
     std::string const   getName() const;
     bool                getIsSigned() const;
@@ -31,11 +31,12 @@ public:
     int const           getRequiredExecuteGrade() const;
     std::string         getTarget() const;
 
+    void                beSigned(Bureaucrat const &bureaucrat);
+    virtual void        beExecuted(Bureaucrat const &bureaucrat) = 0;
+
     void                setIsSigned(bool boolean);
     void                setTarget(std::string target);
 
-    void                beSigned(Bureaucrat const &bureaucrat);
-    virtual void        beExecuted(Bureaucrat const &bureaucrat) = 0;
 
     class GradeTooHighException: public std::exception
     {

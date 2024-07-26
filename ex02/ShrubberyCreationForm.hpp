@@ -8,14 +8,13 @@
 
 class ShrubberyCreationForm : public AForm {
 public:
-    ShrubberyCreationForm();
-    ShrubberyCreationForm(std::string target);
-    ShrubberyCreationForm(ShrubberyCreationForm const &src);
-    ShrubberyCreationForm &operator=(ShrubberyCreationForm const &src);
-    virtual ~ShrubberyCreationForm();
+    ShrubberyCreationForm(); // default constructor
+    ShrubberyCreationForm(std::string target); // parameterized constructor
+    ShrubberyCreationForm(ShrubberyCreationForm const &src); // copy constructor
+    ShrubberyCreationForm &operator=(ShrubberyCreationForm const &src); // assignation operator
+    virtual ~ShrubberyCreationForm(); // destructor
 
     virtual void        beExecuted(Bureaucrat const &bureaucrat);
 };
-
 
 #endif

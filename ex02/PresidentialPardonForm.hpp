@@ -7,11 +7,11 @@
 
 class PresidentialPardonForm : public AForm {
 public:
-    PresidentialPardonForm();
-    PresidentialPardonForm(std::string target);
-    PresidentialPardonForm(PresidentialPardonForm const &src);
-    PresidentialPardonForm &operator=(PresidentialPardonForm const &src);
-    virtual ~PresidentialPardonForm();
+    PresidentialPardonForm(); // Default constructor
+    PresidentialPardonForm(std::string target); // Parametric constructor
+    PresidentialPardonForm(PresidentialPardonForm const &src); // Copy constructor
+    PresidentialPardonForm &operator=(PresidentialPardonForm const &src); // Copy assignment operator
+    virtual ~PresidentialPardonForm(); // Default destructor (virtual)
 
     virtual void        beExecuted(Bureaucrat const &bureaucrat);
 };

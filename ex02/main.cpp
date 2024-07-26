@@ -98,7 +98,7 @@ void testShrubberyCreationForm() {
     middleMan.executeForm(shrub);
     std::cout << shrub << std::endl;
 }
-
+// AForm test
 void testAForm() {
     std::cout << "\033[1;33m// AFORM TEST //\033[0m" << std::endl;
     std::string partition(50, '-');

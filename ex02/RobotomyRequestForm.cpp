@@ -2,22 +2,13 @@
 #include "RobotomyRequestForm.hpp"
 
 RobotomyRequestForm::RobotomyRequestForm():
-        AForm::AForm("Robotomy Request Form",
-                     72,
-                     45,
-                     "undefined") {}
+        AForm::AForm("Robotomy Request Form", 72, 45, "undefined") {}
 
 RobotomyRequestForm::RobotomyRequestForm(std::string target):
-        AForm::AForm("Robotomy Request Form",
-                     72,
-                     45,
-                     target) {}
+        AForm::AForm("Robotomy Request Form", 72, 45, target) {}
 
 RobotomyRequestForm::RobotomyRequestForm(RobotomyRequestForm const &src):
-        AForm::AForm(src.getName(),
-                     src.getRequiredSignGrade(),
-                     src.getRequiredExecuteGrade(),
-                     src.getTarget())
+        AForm::AForm(src.getName(), src.getRequiredSignGrade(), src.getRequiredExecuteGrade(), src.getTarget())
 {
     *this = src;
 }
@@ -33,14 +24,14 @@ RobotomyRequestForm::~RobotomyRequestForm() {}
 
 void RobotomyRequestForm::beExecuted(Bureaucrat const &bureaucrat) {
     if (!getIsSigned()) {
-        std::cout << "This form is not yet signed." << std::endl;
+        std::cout << "This form is not signed" << std::endl;
         return;
     }
     if (bureaucrat.getGrade() <= getRequiredExecuteGrade()) {
         std::time_t timeStamp = std::time(NULL);
-        std::cout << "Robotomy procedure of subject " << getTarget() << " initialized..." << std::endl;
+        std::cout << "Robotomy procedure on " << getTarget() << " has been started" << std::endl;
         srand(time(NULL));
-        std::cout << "Robotomy outcome: " <<(timeStamp % 2 ? "Successful." : "Unsuccessful.") << std::endl;
+        std::cout << "Outcome:" <<(timeStamp % 2 ? "Success" : "Failure.") << std::endl;
     }
     else
         throw AForm::GradeTooLowException();

@@ -26,6 +26,7 @@ std::string Bureaucrat::getName() const {
 int Bureaucrat::getGrade() const {
     return (_grade);
 }
+
 void Bureaucrat::incrementGrade() {
     setGrade(--_grade);
 }
@@ -51,9 +52,23 @@ void Bureaucrat::signForm(Form &form) {
         std::cout << _name << " has signed " << form.getName() << std::endl;
     } else {
         std::cout << _name << " couldn't sign " << form.getName() <<
-        ". Clearance level is not high enough." << std::endl;
+        ". Level is not high enough." << std::endl;
     }
     form.beSigned(*this);
+}
+
+void Bureaucrat::executeForm(AForm &form) {
+    if (!form.getIsSigned()) {
+        std::cout << "This form is not signed" << std::endl;
+        return;
+    }
+    if (_grade <= form.getRequiredExecuteGrade()) {
+        std::cout << _name << " executed form: " << form.getName() << std::endl;
+    } else {
+        std::cout << _name << " could not execute form: " << form.getName() <<
+                  ". Level is not high enough." << std::endl;
+    }
+    form.beExecuted(*this);
 }
 
 const char *Bureaucrat::GradeTooHighException::what() const throw() {

@@ -1,43 +1,37 @@
+CXX      = g++
+CXXFLAGS = -Wextra -Wall -Werror -std=c++98 -pedantic
+LDFLAGS  = -g -fsanitize=address
 
-# Compilation
-NAME 	= bureaucrats
-CC 		= c++
-CFLAGS 	= -Wextra -Wall -Werror -std=c++98 -pedantic
-DEBUG 	= -g -fsanitize=address
+TARGET   = bureaucrats
+SOURCES  = Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp main.cpp  
+OBJECTS  = $(SOURCES:.cpp=.o)
+DEPS     = $(OBJECTS:.o=.d)
 
-# Clean
-RM = rm -rf
+RM       = rm -f
 
-# Source and object files
-SRC =	AForm.cpp \
-		Bureaucrat.cpp \
-		main.cpp \
-		PresidentialPardonForm.cpp \
-		RobotomyRequestForm.cpp \
-		ShrubberyCreationForm.cpp
+GREEN    = \033[0;32m
+RESET    = \033[0m
 
-OBJ	=	$(SRC:.cpp=.o)
+all: $(TARGET)
 
-# Colors
-GREEN	:= \x1b[32m
-RESET	:= \033[0m
+$(TARGET): $(OBJECTS)
+	$(CXX) $(LDFLAGS) $^ -o $@
+	@echo "$(GREEN)Compiled $(TARGET) successfully.$(RESET)"
 
-# Rules
-all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(DEBUG) $(OBJ) -o $(NAME)
-	@echo "$(GREEN)Compiled the <$(NAME)> executable.$(RESET)"
+-include $(DEPS)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -MMD -c $< -o $@
 
 clean:
-	@$(RM) $(OBJ)
-	@echo "$(GREEN)Object files removed.$(RESET)"
+	$(RM) $(OBJECTS) $(DEPS)
+	@echo "$(GREEN)Cleaned object files and dependencies.$(RESET)"
 
 fclean: clean
-	@$(RM) $(NAME)
-	@echo "$(GREEN)Removed executable.$(RESET)"
+	$(RM) $(TARGET)
+	@echo "$(GREEN)Removed executable $(TARGET).$(RESET)"
 
 re: fclean all
 
-.SILENT: $(OBJ)
 .PHONY: all clean fclean re
