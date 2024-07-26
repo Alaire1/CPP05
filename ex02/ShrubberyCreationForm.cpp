@@ -28,7 +28,7 @@ void ShrubberyCreationForm::beExecuted(Bureaucrat const &bureaucrat) {
         return;
     }
     if (bureaucrat.getGrade() <= getRequiredExecuteGrade()) {
-        std::ofstream outfile(getTarget() + "_shrubbery");
+        std::ofstream outfile((getTarget() + "_shrubbery").c_str());
         outfile <<
                 "         ccee88oo\n"
                 "  C8O8O8Q8PoOb o8oo\n"

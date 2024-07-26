@@ -1,6 +1,7 @@
 
 #include "RobotomyRequestForm.hpp"
-
+#include <ctime> 
+#include <cstdlib>
 RobotomyRequestForm::RobotomyRequestForm():
         AForm::AForm("Robotomy Request Form", 72, 45, "undefined") {}
 
@@ -22,6 +23,7 @@ RobotomyRequestForm &RobotomyRequestForm::operator=(RobotomyRequestForm const &s
 
 RobotomyRequestForm::~RobotomyRequestForm() {}
 
+
 void RobotomyRequestForm::beExecuted(Bureaucrat const &bureaucrat) {
     if (!getIsSigned()) {
         std::cout << "This form is not signed" << std::endl;
@@ -29,10 +31,9 @@ void RobotomyRequestForm::beExecuted(Bureaucrat const &bureaucrat) {
     }
     if (bureaucrat.getGrade() <= getRequiredExecuteGrade()) {
         std::time_t timeStamp = std::time(NULL);
-        std::cout << "Robotomy procedure on " << getTarget() << " has been started" << std::endl;
-        srand(time(NULL));
-        std::cout << "Outcome:" <<(timeStamp % 2 ? "Success" : "Failure.") << std::endl;
-    }
-    else
+        std::srand(timeStamp);
+        std::cout << "Outcome: " << (std::rand() % 2 ? "Success" : "Failure.") << std::endl;
+    } else {
         throw AForm::GradeTooLowException();
+    }
 }

@@ -43,7 +43,7 @@ void Bureaucrat::setGrade(int grade) {
     _grade = grade;
 }
 
-void Bureaucrat::signForm(Form &form) {
+void Bureaucrat::signForm(AForm &form) {
     if (form.getIsSigned()) {
         std::cout << "This form has been signed" << std::endl;
         return;

@@ -46,8 +46,8 @@ AForm::~AForm() {}
 std::string const   AForm::getName() const {return (_name);}
 std::string         AForm::getTarget() const {return (_target);}
 bool                AForm::getIsSigned() const {return(_isSigned);}
-int const           AForm::getRequiredSignGrade() const {return(_requiredSignGrade);}
-int const           AForm::getRequiredExecuteGrade() const {return(_requiredExecuteGrade);}
+int                 AForm::getRequiredSignGrade() const {return(_requiredSignGrade);}
+int                 AForm::getRequiredExecuteGrade() const {return(_requiredExecuteGrade);}
 void                AForm::setIsSigned(bool boolean) {_isSigned = boolean;}
 void                AForm::setTarget(std::string target) {_target = target;}
 
@@ -59,7 +59,7 @@ void AForm::beSigned(Bureaucrat const &bureaucrat) {
     if (bureaucrat.getGrade() <= _requiredSignGrade)
         _isSigned = true;
     else
-        throw Form::GradeTooLowException();
+        throw AForm::GradeTooLowException();
 }
 
 const char *AForm::GradeTooHighException::what() const throw() {
@@ -71,7 +71,7 @@ const char *AForm::GradeTooLowException::what() const throw() {
     return ("Exception: Grade too low.");
 }
 
-std::ostream &operator<<(std::ostream &output, Form const &input)
+std::ostream &operator<<(std::ostream &output, AForm const &input)
 {
     std::string signatureState = input.getIsSigned() ? "Present" : "Absent";
 

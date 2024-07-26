@@ -2,6 +2,7 @@
 #include "PresidentialPardonForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "ShrubberyCreationForm.hpp"
+#include "AForm.hpp"
 
 void testPresidentialPardonForm() {
     std::cout << "\033[1;33mPresidential Pardon Form Test:\033[0m" << std::endl;
@@ -99,42 +100,42 @@ void testShrubberyCreationForm() {
     std::cout << shrub << std::endl;
 }
 // AForm test
-void testAForm() {
-    std::cout << "\033[1;33m// AFORM TEST //\033[0m" << std::endl;
-    std::string partition(50, '-');
-    std::cout << partition << std::endl;
+// void testAForm() {
+//     std::cout << "\033[1;33m// AFORM TEST //\033[0m" << std::endl;
+//     std::string partition(50, '-');
+//     std::cout << partition << std::endl;
 
-    TestForm testForm("Test Form");
-    TestForm testFormUnsigned(testForm);
+//     AForm testForm("Test Form");
+//     AForm testFormUnsigned(testForm);
 
-    Bureaucrat bossMan("Boss", 1);
-    Bureaucrat middleMan("Mid", 75);
+//     Bureaucrat bossMan("Boss", 1);
+//     Bureaucrat middleMan("Mid", 75);
 
-    bossMan.signForm(testForm);
-    bossMan.signForm(testForm);
-    try {
-        middleMan.signForm(testFormUnsigned);
-    } catch (std::exception &e) {
-        std::cout << "\033[1;31mExpected error:\033[0m " << e.what() << std::endl;
-    }
-    std::cout << std::endl;
-    try {
-        middleMan.executeForm(testForm);
-    } catch (std::exception &e) {
-        std::cout << "\033[1;31mExpected error:\033[0m " << e.what() << std::endl;
-    }
-    std::cout << std::endl;
+//     bossMan.signForm(testForm);
+//     bossMan.signForm(testForm);
+//     try {
+//         middleMan.signForm(testFormUnsigned);
+//     } catch (std::exception &e) {
+//         std::cout << "\033[1;31mExpected error:\033[0m " << e.what() << std::endl;
+//     }
+//     std::cout << std::endl;
+//     try {
+//         middleMan.executeForm(testForm);
+//     } catch (std::exception &e) {
+//         std::cout << "\033[1;31mExpected error:\033[0m " << e.what() << std::endl;
+//     }
+//     std::cout << std::endl;
 
-    bossMan.executeForm(testFormUnsigned);
-    std::cout << std::endl;
-    bossMan.executeForm(testForm);
-    std::cout << testForm << std::endl;
-}
+//     bossMan.executeForm(testFormUnsigned);
+//     std::cout << std::endl;
+//     bossMan.executeForm(testForm);
+//     std::cout << testForm << std::endl;
+// }
 
 int main() {
     testPresidentialPardonForm();
     testRobotomyRequestForm();
     testShrubberyCreationForm();
-    testAForm();
+    //testAForm();
     return 0;
 }
