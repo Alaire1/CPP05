@@ -4,7 +4,8 @@ LDFLAGS  = -g -fsanitize=address
 
 TARGET   = bureaucrats
 SOURCES  = Bureaucrat.cpp Form.cpp main.cpp 
-OBJECTS  = $(SOURCES:.cpp=.o)
+OBJDIR   = obj
+OBJECTS  = $(addprefix $(OBJDIR)/, $(SOURCES:.cpp=.o))
 DEPS     = $(OBJECTS:.o=.d)
 
 RM       = rm -f
@@ -15,21 +16,24 @@ RESET    = \033[0m
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CXX) $(LDFLAGS) $^ -o $@
+	@$(CXX) $(LDFLAGS) $^ -o $@
 	@echo "$(GREEN)Compiled $(TARGET) successfully.$(RESET)"
-
 
 -include $(DEPS)
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -MMD -c $< -o $@
+$(OBJDIR)/%.o: %.cpp | $(OBJDIR)
+	@$(CXX) $(CXXFLAGS) -MMD -c $< -o $@
+
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
 
 clean:
-	$(RM) $(OBJECTS) $(DEPS)
-	@echo "$(GREEN)Cleaned object files and dependencies.$(RESET)"
+	@$(RM) $(OBJECTS) $(DEPS)
+	@rm -rf $(OBJDIR)
+	@echo "$(GREEN)Cleaned object files, dependencies, and obj directory.$(RESET)"
 
 fclean: clean
-	$(RM) $(TARGET)
+	@$(RM) $(TARGET)
 	@echo "$(GREEN)Removed executable $(TARGET).$(RESET)"
 
 re: fclean all
