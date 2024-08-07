@@ -40,12 +40,6 @@ Form &Form::operator=(Form const &src) {
 
 Form::~Form() {}
 
-std::string const   Form::getName() const {return (_name);}
-bool                Form::getIsSigned() const {return(_isSigned);}
-int                 Form::getRequiredExecuteGrade() const {return(_requiredExecuteGrade);}
-int                 Form::getRequiredSignGrade() const {return(_requiredSignGrade);}
-
-
 
 void Form::beSigned(Bureaucrat const &bureaucrat) {
     if (_isSigned) {
@@ -59,13 +53,18 @@ void Form::beSigned(Bureaucrat const &bureaucrat) {
 }
 
 const char *Form::GradeTooHighException::what() const throw() {
-    return ("Exception: Grade too high.");
+    return ("Exception Form: Grade too high.");
 }
 
 
 const char *Form::GradeTooLowException::what() const throw() {
-    return ("Exception: Grade too low.");
+    return ("Exception Form: Grade too low.");
 }
+
+std::string const   Form::getName() const {return (_name);}
+bool                Form::getIsSigned() const {return(_isSigned);}
+int                 Form::getRequiredExecuteGrade() const {return(_requiredExecuteGrade);}
+int                 Form::getRequiredSignGrade() const {return(_requiredSignGrade);}
 
 std::ostream &operator<<(std::ostream &output, Form const &input)
 {

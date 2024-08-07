@@ -16,7 +16,7 @@ class Intern {
 	public:
 		Intern(); // Default constructor
 		Intern(const Intern &src); // Copy constructor
-        Intern operator=(const Intern &src); // Copy assignment operator
+        Intern &operator=(const Intern &src); // Copy assignment operator
 		~Intern(); // Default destructor
 	
 		AForm *makeForm(const std::string &formName, const std::string &target);

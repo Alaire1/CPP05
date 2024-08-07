@@ -6,17 +6,17 @@
 
 void testPresidentialPardonForm() {
     std::cout << "\033[1;33mPresidential Pardon Form Test:\033[0m" << std::endl;
-    std::string partition(50, '-');
-    std::cout << partition << std::endl;
 
-    PresidentialPardonForm pardon("James Sunderland");
+    PresidentialPardonForm pardon("Jonny");
     PresidentialPardonForm pardonUnsigned(pardon);
 
-    Bureaucrat bossMan("Boss", 1);
+    Bureaucrat boss("Boss", 1);
     Bureaucrat middleMan("MddleMan", 75);
 
-    bossMan.signForm(pardon);
-    bossMan.signForm(pardon);
+
+    boss.signForm(pardon);
+    //double signing
+    boss.signForm(pardon);
     try {
         middleMan.signForm(pardonUnsigned);
     } catch (std::exception &e) {
@@ -29,26 +29,23 @@ void testPresidentialPardonForm() {
         std::cout << "\033[1;31mExpected error:\033[0m " << e.what() << std::endl;
     }
     std::cout << std::endl;
-
-    bossMan.executeForm(pardonUnsigned);
-    std::cout << std::endl;
-    bossMan.executeForm(pardon);
+    //executing not signed form
+    boss.executeForm(pardonUnsigned);
+    boss.executeForm(pardon);
     std::cout << pardon << std::endl;
 }
 
 void testRobotomyRequestForm() {
     std::cout << "\033[1;33mRobotomy Form Test:\033[0m" << std::endl;
-    std::string partition(50, '-');
-    std::cout << partition << std::endl;
-
     RobotomyRequestForm robo("Mark");
     RobotomyRequestForm roboUnsigned(robo);
 
-    Bureaucrat bossMan("Boss", 1);
+    Bureaucrat boss("Boss", 1);
     Bureaucrat middleMan("MddleMan", 75);
 
-    bossMan.signForm(robo);
-    bossMan.signForm(robo);
+    boss.signForm(robo);
+    //double signing
+    boss.signForm(robo);
     try {
         middleMan.signForm(roboUnsigned);
     } catch (std::exception &e) {
@@ -61,17 +58,14 @@ void testRobotomyRequestForm() {
         std::cout << "\033[1;31mExpected error:\033[0m " << e.what() << std::endl;
     }
     std::cout << std::endl;
-
-    bossMan.executeForm(roboUnsigned);
-    std::cout << std::endl;
-    bossMan.executeForm(robo);
+    //executing unsigned
+    boss.executeForm(roboUnsigned);
+    boss.executeForm(robo);
     std::cout << robo << std::endl;
 }
 
 void testShrubberyCreationForm() {
     std::cout << "\033[1;33mShrubbery Form Test:\033[0m" << std::endl;
-    std::string partition(50, '-');
-    std::cout << partition << std::endl;
 
     ShrubberyCreationForm shrub("Maria");
     ShrubberyCreationForm shrubUnsigned(shrub);
@@ -80,6 +74,7 @@ void testShrubberyCreationForm() {
     Bureaucrat newMan("Newbie", 150);
 
     middleMan.signForm(shrub);
+    //double signing form
     middleMan.signForm(shrub);
     try {
         newMan.signForm(shrubUnsigned);
@@ -93,26 +88,23 @@ void testShrubberyCreationForm() {
         std::cout << "\033[1;31mExpected error:\033[0m " << e.what() << std::endl;
     }
     std::cout << std::endl;
-
+    //executing not signed form
     middleMan.executeForm(shrubUnsigned);
-    std::cout << std::endl;
     middleMan.executeForm(shrub);
     std::cout << shrub << std::endl;
 }
-// AForm test
+// instantion of AForm not gonna be created because it's an abstract class
 // void testAForm() {
 //     std::cout << "\033[1;33m// AFORM TEST //\033[0m" << std::endl;
-//     std::string partition(50, '-');
-//     std::cout << partition << std::endl;
 
-//     AForm testForm("Test Form");
+//     AForm testForm("test");
 //     AForm testFormUnsigned(testForm);
 
-//     Bureaucrat bossMan("Boss", 1);
+//     Bureaucrat boss("Boss", 1);
 //     Bureaucrat middleMan("Mid", 75);
 
-//     bossMan.signForm(testForm);
-//     bossMan.signForm(testForm);
+//     boss.signForm(testForm);
+//     boss.signForm(testForm);
 //     try {
 //         middleMan.signForm(testFormUnsigned);
 //     } catch (std::exception &e) {
@@ -126,9 +118,9 @@ void testShrubberyCreationForm() {
 //     }
 //     std::cout << std::endl;
 
-//     bossMan.executeForm(testFormUnsigned);
+//     boss.executeForm(testFormUnsigned);
 //     std::cout << std::endl;
-//     bossMan.executeForm(testForm);
+//     boss.executeForm(testForm);
 //     std::cout << testForm << std::endl;
 // }
 

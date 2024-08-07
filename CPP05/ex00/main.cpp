@@ -7,13 +7,11 @@ void testGradeModification() {
 
 
     try {
-        Bureaucrat bureaucrat("Bob", 75);
+        Bureaucrat bureaucrat("Bob", 80);
         std::cout << bureaucrat << std::endl;
 
-    
         bureaucrat.incrementGrade();
         std::cout << "After increment: " << bureaucrat << std::endl;
-
 
         bureaucrat.decrementGrade();
         std::cout << "After decrement: " << bureaucrat << std::endl;
@@ -64,7 +62,16 @@ void testCopyAndAssignment() {
     std::cout << "Original: " << original << std::endl;
     std::cout << "Copy Constructed: " << copyConstructed << std::endl;
     std::cout << "Assigned: " << assigned << std::endl;
+
+    original.decrementGrade();
+    original.decrementGrade();
+
+    std::cout << "\033[1;33mAfter modifying original:\033[0m" << std::endl;
+    std::cout << "Original: " << original << std::endl;
+    std::cout << "Copy Constructed: " << copyConstructed << std::endl;
+    std::cout << "Assigned: " << assigned << std::endl;
 }
+
 
 int main() {
     testGradeModification();

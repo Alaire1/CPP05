@@ -55,7 +55,7 @@ void testInternAndBureaucrat() {
     // Test unknown form
     std::cout << "\033[1;33m" << "Unknown Form" << "\033[0m" << std::endl;
     try {
-        form = intern.makeForm("unknown form", "Unknown");
+        form = intern.makeForm("unknown form", "Billy");
     } catch (std::exception &e) {
         std::cout << "\033[1;31mExpected error:\033[0m " << e.what() << std::endl;
     }

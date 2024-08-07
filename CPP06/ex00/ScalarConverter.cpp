@@ -1,3 +1,5 @@
+#include "ScalarConverter.hpp"
+ScalaraConverter::ScalarConverter(std::string str) : _str(str) {}
 
 void ScalarConverter::toFloat()
 {

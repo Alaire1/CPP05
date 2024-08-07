@@ -8,6 +8,7 @@ int main(int ac, char **av)
         return 1;
     }
     scalarConverter sc(av[1]);
+    sc.convert();
     
     return 0;
 }

@@ -6,7 +6,7 @@ Intern::Intern(const Intern &src) {
 	*this = src;
 }
 
-Intern Intern::operator=(const Intern &src) {
+Intern& Intern::operator=(const Intern &src) {
 	(void)src;
 	return *this;
 }
@@ -46,7 +46,7 @@ AForm *Intern::makeForm(const std::string &formName, const std::string &target) 
 			return (this->*forms[i])(target);
 		}
 	}
-	std::cerr << formName << ": ";
+	std::cerr << "\033[1;31mError: Form name \"" << formName << "\" does not exist.\033[0m" << std::endl;
 	throw Intern::FormNotFoundException();
 }
 
