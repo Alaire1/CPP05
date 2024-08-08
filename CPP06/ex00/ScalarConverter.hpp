@@ -3,21 +3,24 @@
 
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <iomanip>
+#include <limits>
+#include <cmath>
 
-class scalarConverter
+class ScalarConverter
 {
     private:
-        static void convert(std::string const &input);
-        std::string _str;
-    public:
         ScalarConverter();
-        ScalaraConverter(ScalarConverter const &src);
-        ScalarConverter &operator=(ScalarConverter const &src);
+		ScalarConverter(ScalarConverter const &copy);
+		ScalarConverter &operator=(ScalarConverter const &copy);
         ~ScalarConverter();
-        void   _toInt();
-        void   _toFloat();
-        void   _toDouble();
-        void   _toChar()    
+        void   toInt(std::string str);
+        void   toFloat(std::string str);
+        void   toDouble(std::string str);
+        void   toChar(std::string str);
+    public:
+        static void convert(std::string str);
    
 };
 

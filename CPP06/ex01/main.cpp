@@ -24,6 +24,8 @@ int main()
     std::cout << "\033[1;33mOriginal:\033[0m" << std::endl;
     printData(&data);
     uintptr_t serialized = Serializer::serialize(&data);
+    //printing an address of this integer pointer
+    std::cout << "\033[1;33mSerialized:\033[0m " << serialized << std::endl;
 
     std::cout << "\033[1;33mDeserialized:\033[0m" << std::endl;
     Data *deserialized = Serializer::deserialize(serialized);

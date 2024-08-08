@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <stdint.h>
+#include <cstddef> 
 
 struct Data {
 	char c;
