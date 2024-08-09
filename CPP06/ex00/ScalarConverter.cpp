@@ -64,7 +64,10 @@ void ScalarConverter::toDouble(std::string str) {
 	try {
 		int precision = countPrecision(str);
 		double d = std::strtod(str.c_str(), NULL);
-
+		if (str == "-inf" || str == "+inf" || str == "nan") {
+            std::cout << "\033[34mdouble: " << str << "\033[0m" << std::endl;
+            return;
+		}
 		if (d < -std::numeric_limits<double>::max() || d > std::numeric_limits<double>::max())
 			throw std::invalid_argument("impossible");
 		if (std::isnan(d) || std::isinf(d))
@@ -74,7 +77,7 @@ void ScalarConverter::toDouble(std::string str) {
 		std::cout << std::fixed << std::setprecision(precision);
 		std::cout << static_cast<double>(d) << "\033[0m" <<  std::endl;
 	} catch (std::exception &e) {
-		std::cout << "\033[31double: " << e.what() << "\033[0m" << std::endl;
+		std::cout << "\033[31mdouble: " << e.what() << "\033[0m" << std::endl;
 	}
 }
 

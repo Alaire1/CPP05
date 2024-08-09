@@ -1,6 +1,6 @@
 CXX      = c++
 CXXFLAGS = -Wextra -Wall -Werror -std=c++98 -pedantic
-LDFLAGS  = -g -fsanitize=address
+LDFLAGS  = -g 
 
 TARGET   = scalar
 SOURCES  = ScalarConverter.cpp main.cpp
