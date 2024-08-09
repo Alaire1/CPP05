@@ -1,16 +1,25 @@
 #include "ScalarConverter.hpp"
 
 ScalarConverter::ScalarConverter() {}
-ScalarConverter::~ScalarConverter() {}
 
+ScalarConverter::ScalarConverter(ScalarConverter const &src) {
+    (void)src;
+}
+
+ScalarConverter &ScalarConverter::operator=(ScalarConverter const &src)
+{
+    (void)src;
+    return(*this);
+}
+ScalarConverter::~ScalarConverter() {}
 void ScalarConverter::toChar(std::string str) {
 	try {
 		double d = std::strtod(str.c_str(), NULL);
 
 		if (d < std::numeric_limits<char>::min() || d > std::numeric_limits<char>::max())
-			throw std::invalid_argument("impossible");
+			throw std::invalid_argument("conversion impossible");
 		if (std::isnan(d) || std::isinf(d))
-			throw std::invalid_argument("impossible");
+			throw std::invalid_argument("conversion impossible");
 		if (!std::isprint(static_cast<char>(d)))
 			throw std::invalid_argument("Non displayable");
 		std::cout << "\033[35mchar: " << static_cast<char>(d) << "\033[0m" << std::endl;
@@ -24,31 +33,35 @@ void ScalarConverter::toInt(std::string str) {
 		double num = std::strtod(str.c_str(), NULL);
 
 		if (num < std::numeric_limits<int>::min() || num > std::numeric_limits<int>::max())
-			throw std::invalid_argument("impossible");
+			throw std::invalid_argument("conversion impossible");
 		if (std::isnan(num) || std::isinf(num))
-			throw std::invalid_argument("impossible");
-
+			throw std::invalid_argument("conversion impossible");
 		std::cout << "\033[32mint: " << static_cast<int>(num) << "\033[0m" << std::endl;
 	} catch (std::exception &e) {
 		std::cout << "\033[31mint: " << e.what() << "\033[0m" << std::endl;
 	}
 }
 
-int	countPrecision(std::string str) {
-	if (str[str.find('.') + 1] == 'f')
-		return (1);
-	bool hasF = str.find('f') != std::string::npos;
-	int precision = str.size() - str.find('.') - (hasF ? 2 : 1);
-	return (precision);
+int getPrecision(const std::string& str) {
+    size_t dotPos = str.find('.');
+    if (dotPos == std::string::npos) {
+        return 0;
+    }
+    size_t endPos = str.size();
+    if (str[endPos - 1] == 'f') {
+        endPos--;
+    }
+    int precision = endPos - dotPos - 1;
+    return precision;
 }
 
 void ScalarConverter::toFloat(std::string str) {
     try {
-		int precision = countPrecision(str);
+		int precision = getPrecision(str);
         float f = std::strtof(str.c_str(), NULL);
 
         if (f < -std::numeric_limits<float>::max() || f > std::numeric_limits<float>::max())
-            throw std::invalid_argument("impossible");
+            throw std::invalid_argument("conversion impossible");
         if (std::isnan(f) || std::isinf(f))
             throw std::invalid_argument("nanf");
 
@@ -62,14 +75,10 @@ void ScalarConverter::toFloat(std::string str) {
 
 void ScalarConverter::toDouble(std::string str) {
 	try {
-		int precision = countPrecision(str);
+		int precision = getPrecision(str);
 		double d = std::strtod(str.c_str(), NULL);
-		if (str == "-inf" || str == "+inf" || str == "nan") {
-            std::cout << "\033[34mdouble: " << str << "\033[0m" << std::endl;
-            return;
-		}
 		if (d < -std::numeric_limits<double>::max() || d > std::numeric_limits<double>::max())
-			throw std::invalid_argument("impossible");
+			throw std::invalid_argument("conversion impossible");
 		if (std::isnan(d) || std::isinf(d))
 			throw std::invalid_argument("nan");
 
