@@ -1,5 +1,12 @@
 #include "ScalarConverter.hpp"
 
+#include <cctype>
+#include <cmath>
+#include <string>
+#include <iomanip>
+
+#include <stdio.h>
+
 ScalarConverter::ScalarConverter() {}
 
 ScalarConverter::ScalarConverter(ScalarConverter const &src) {
@@ -12,90 +19,147 @@ ScalarConverter &ScalarConverter::operator=(ScalarConverter const &src)
     return(*this);
 }
 ScalarConverter::~ScalarConverter() {}
-void ScalarConverter::toChar(std::string str) {
-	try {
-		double d = std::strtod(str.c_str(), NULL);
 
-		if (d < std::numeric_limits<char>::min() || d > std::numeric_limits<char>::max())
-			throw std::invalid_argument("conversion impossible");
-		if (std::isnan(d) || std::isinf(d))
-			throw std::invalid_argument("conversion impossible");
-		if (!std::isprint(static_cast<char>(d)))
-			throw std::invalid_argument("Non displayable");
-		std::cout << "\033[35mchar: " << static_cast<char>(d) << "\033[0m" << std::endl;
-	} catch (std::exception &e) {
-		std::cout << "\033[31mchar: " << e.what() << "\033[0m" << std::endl;
-	}
-}
-
-void ScalarConverter::toInt(std::string str) {
-	try {
-		double num = std::strtod(str.c_str(), NULL);
-
-		if (num < std::numeric_limits<int>::min() || num > std::numeric_limits<int>::max())
-			throw std::invalid_argument("conversion impossible");
-		if (std::isnan(num) || std::isinf(num))
-			throw std::invalid_argument("conversion impossible");
-		std::cout << "\033[32mint: " << static_cast<int>(num) << "\033[0m" << std::endl;
-	} catch (std::exception &e) {
-		std::cout << "\033[31mint: " << e.what() << "\033[0m" << std::endl;
-	}
-}
-
-int getPrecision(const std::string& str) {
-    size_t dotPos = str.find('.');
-    if (dotPos == std::string::npos) {
-        return 0;
-    }
-    size_t endPos = str.size();
-    if (str[endPos - 1] == 'f') {
-        endPos--;
-    }
-    int precision = endPos - dotPos - 1;
-    return precision;
-}
-
-void ScalarConverter::toFloat(std::string str) {
-    try {
-		int precision = getPrecision(str);
-        float f = std::strtof(str.c_str(), NULL);
-
-        if (f < -std::numeric_limits<float>::max() || f > std::numeric_limits<float>::max())
-            throw std::invalid_argument("conversion impossible");
-        if (std::isnan(f) || std::isinf(f))
-            throw std::invalid_argument("nanf");
-
-        std::cout << "\033[33mfloat: ";
-        std::cout << std::fixed << std::setprecision(precision);
-		std::cout << static_cast<float>(f) << "f\033[0m" << std::endl;
-    } catch (std::exception &e) {
-        std::cout << "\033[31mfloat: " << e.what() << "\033[0m" << std::endl;
+void displayChar(int integerNumber) {
+    if (integerNumber < 0 || integerNumber > 127) {
+        std::cout << RED << "char: impossible" << RESET << std::endl;
+    } else if ((integerNumber >= 0 && integerNumber <= 31) || integerNumber == 127) {
+         std::cout << YELLOW << "char: " << RESET <<  "non displayable" << std::endl;
+    } else {
+        std::cout << YELLOW << "char: " << RESET << "'" << static_cast<char>(integerNumber) << "'" << std::endl;
     }
 }
 
-void ScalarConverter::toDouble(std::string str) {
-	try {
-		int precision = getPrecision(str);
-		double d = std::strtod(str.c_str(), NULL);
-		if (d < -std::numeric_limits<double>::max() || d > std::numeric_limits<double>::max())
-			throw std::invalid_argument("conversion impossible");
-		if (std::isnan(d) || std::isinf(d))
-			throw std::invalid_argument("nan");
-
-		std::cout << "\033[34mdouble: ";
-		std::cout << std::fixed << std::setprecision(precision);
-		std::cout << static_cast<double>(d) << "\033[0m" <<  std::endl;
-	} catch (std::exception &e) {
-		std::cout << "\033[31mdouble: " << e.what() << "\033[0m" << std::endl;
-	}
+void displayInt(bool isIntPossible, int integerNumber) {
+    if (isIntPossible)
+        std::cout << BLUE << "int: " << RESET << integerNumber << std::endl;
+    else
+        std::cout << RED << "int: impossible" << RESET << std::endl;
 }
 
-void ScalarConverter::convert(std::string str)
+void displayFloat(float floatNumber) {
+    std::cout << MAGENTA << "float: " << RESET << std::fixed << std::setprecision(1) << floatNumber << "f" << std::endl;
+}
+
+void displayDouble(double doubleNumber) {
+    std::cout << GREEN << "double: " << RESET << std::fixed << std::setprecision(1) << doubleNumber << std::endl;
+}
+
+void printConverted(bool isIntPossible, int integerNumber, float floatNumber, double doubleNumber) 
 {
-    ScalarConverter converter;
+    displayChar(integerNumber);
+    displayInt(isIntPossible, integerNumber);
+    displayFloat(floatNumber);
+    displayDouble(doubleNumber);
+}
 
-    converter.toChar(str);
-    converter.toInt(str);
-    converter.toFloat(str);
-    converter.toDouble(str);
+void    handleDouble(double doubleVal)
+{
+    float floatVal = static_cast<float>(doubleVal);
+    int intVal = static_cast<int>(doubleVal);
+    printConverted( 1, intVal, floatVal, doubleVal);
+}
+
+void    handleFloat(float floatVal)
+{
+    double doubleVal = static_cast<double>(floatVal);
+    int intVal = static_cast<int>(floatVal);
+    printConverted(1, intVal, floatVal, doubleVal);
+}
+
+void    handleInt(int intVal)
+{
+    float floatVal = static_cast<float>(intVal);
+    double doubleVal = static_cast<double>(intVal);
+    printConverted(1, intVal, floatVal, doubleVal);
+
+}
+
+void    handlePseudo(std::string input)
+{
+    float floatVal = static_cast<float>(atof(input.c_str()));
+    double doubleVal = static_cast<double>(floatVal);
+    int intVal = static_cast<int>(floatVal);
+    printConverted(0, intVal, floatVal, doubleVal);
+}
+
+void    handleChar(char charVal)
+{
+    int intVal = static_cast<int>(charVal);
+    float floatVal = static_cast<float>(charVal);
+    double doubleVal = static_cast<double>(charVal);
+    printConverted(1, intVal, floatVal, doubleVal);
+}
+
+
+bool isChar(const std::string &input) {
+    if (input.length() == 1 && !isdigit(input.at(0)))
+        return true;
+    return false;
+}
+
+bool isPseudoLiteral(const std::string &input) {
+    if (input == "-inf" || input == "+inf" || input == "inf" || input == "inf" || input == "nan" || 
+           input == "-inff" || input == "+inff" || input == "nanf" || input == "inff")  
+        return true;
+    return false;
+}
+
+bool containsInvalidCharacters(const std::string &input) {
+      for(size_t i = 0; i < input.length(); i++)
+    {
+        if (!isdigit(input.at(i)) && input.at(i) != '.' && input.at(i) != 'f' && input.at(i) != '-' && input.at(i) != '+')
+                return true;
+        else if (i != 0 && (input[i] == '+' || input[i] == '-'))
+                return true;
+    }
+    return false;
+}
+void    ScalarConverter::convert(std::string const &input)
+{
+    if (isChar(input)) {
+        handleChar(input.at(0));
+        return;
+    }
+    if (isPseudoLiteral(input)) {
+        handlePseudo(input);
+        return;
+    }
+    if (containsInvalidCharacters(input)) {
+        std::cerr << RED << "Error: Invalid Input" << RESET << std::endl;
+        return;
+    }
+    if (input.find('.') != std::string::npos)
+    {
+        if (input.find_first_of('.') != input.find_last_of('.') || input.find_first_of('f') != input.find_last_of('f'))
+            {
+                std::cerr << RED << "Error: Invalid Input" << RESET << std::endl;
+                return;
+           }
+        if (input.find('f') == input.length() - 1)
+            {
+                handleFloat(atof(input.c_str()));
+                return;
+            }
+        if (input.find('f') != std::string::npos)
+           {
+                std::cerr << RED << "Error: Invalid Input" << RESET << std::endl;
+                return;
+           }
+        handleDouble(atof(input.c_str()));
+        return;
+    }
+    if (input.find('f') != std::string::npos)
+        {
+                std::cerr << RED << "Error: Invalid Input" << RESET << std::endl;
+                return;
+        }
+    long tmp = atol(input.c_str());
+    if (tmp > std::numeric_limits<int>::max() ||  tmp < std::numeric_limits<int>::min())
+       {
+            handleDouble(atof(input.c_str()));
+            return;
+       }
+   handleInt(atoi(input.c_str()));
+    
 }
