@@ -38,7 +38,7 @@ int main()
     len = sizeof(arrF) / sizeof(arrF[0]);
     iter(arrF, len, printElement<float>);
 
-    // Edge cases
+
     std::cout << "\033[33mArray of min and max ints :\033[0m" << std::endl;
     int arrMinMaxInt[] = {std::numeric_limits<int>::min(), std::numeric_limits<int>::max()};
     len = sizeof(arrMinMaxInt) / sizeof(arrMinMaxInt[0]);

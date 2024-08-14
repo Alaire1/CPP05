@@ -2,8 +2,8 @@ CXX      = c++
 CXXFLAGS = -Wextra -Wall -Werror -std=c++98 -pedantic
 LDFLAGS  = -g -fsanitize=address
 
-TARGET   = scalar
-SOURCES  = ScalarConverter.cpp main.cpp
+TARGET   = array
+SOURCES  =  main.cpp
 OBJDIR   = obj
 OBJECTS  = $(addprefix $(OBJDIR)/, $(SOURCES:.cpp=.o))
 DEPS     = $(OBJECTS:.o=.d)

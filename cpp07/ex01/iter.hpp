@@ -23,5 +23,4 @@ void printElement(const T& element, bool isLast) {
     }
 }
 
-
 #endif
