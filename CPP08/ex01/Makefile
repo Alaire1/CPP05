@@ -3,7 +3,7 @@ CXXFLAGS = -Wextra -Wall -Werror -std=c++98 -pedantic
 LDFLAGS  = -g -fsanitize=address
 
 TARGET   = span
-SOURCES  = main.cpp
+SOURCES  = Span.cpp main.cpp
 OBJDIR   = obj
 OBJECTS  = $(addprefix $(OBJDIR)/, $(SOURCES:.cpp=.o))
 DEPS     = $(OBJECTS:.o=.d)

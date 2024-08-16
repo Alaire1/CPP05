@@ -1,8 +1,11 @@
 #ifndef MUTANTSTACK_HPP
 # define MUTANTSTACK_HPP
 
-# include <stack>
+#define YELLOW "\033[33m"
+#define RESET "\033[0m"
 
+#include <stack>
+#include <deque>
 template <typename T>
 class MutantStack: public std::stack<T> {
 public:
