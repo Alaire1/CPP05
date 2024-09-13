@@ -1,29 +1,40 @@
 #ifndef SPAN_HPP
-# define SPAN_HPP
+#define SPAN_HPP
 
-#include <vector>
-#include <ostream>
+#include <algorithm>
+#include <exception>
 #include <iostream>
+#include <limits>
+#include <vector>
 
 class Span {
-	private:
-		unsigned int _N;
-		unsigned int _size;
-		std::vector<int> _vector;
+public:
+	Span(unsigned int size);
+	Span(const Span &other);
+	~Span();
 
+	Span operator=(const Span &rhs);
+	int operator[](unsigned int pos);
+
+	void addNumber(int number);
+	void addRange(std::vector<int>::iterator begin, std::vector<int>::iterator end);
+	unsigned int shortestSpan() const;
+	unsigned int longestSpan() const;
+
+	class IsFullException : public std::exception {
 	public:
-		Span(); // default constructor
-		Span(unsigned int N); // parameterized constructor
-		Span(Span const &src); // copy constructor
-		~Span(); // destructor
-		Span &operator=(Span const &rhs); // assignation operator
+		virtual const char *what() const throw();
+	};
+	class NotEnoughNumbersException : public std::exception {
+	public:
+		virtual const char *what() const throw();
+	};
 
-		void addNumber(int n);
-		void addRange(int start, unsigned int count);
+private:
+	unsigned int _size;
+	std::vector<int> _numbers;
 
-		int shortestSpan(void);
-		int longestSpan(void);
-
-		
+	Span();
 };
-#endif
+
+#endif 

@@ -1,66 +1,80 @@
 #include "Span.hpp"
-#include <algorithm>
-#include <stdexcept>
 
-Span::Span() : _N(0), _size(0) {}
-
-Span::Span(unsigned int N) : _N(N), _size(0) {
-	_vector.reserve(N);
+void Span::addNumber(int number) {
+	if (_numbers.size() < _size) {
+		_numbers.push_back(number);
+	} else {
+		throw IsFullException();
+	}
 }
 
-Span::Span(Span const &src) {
-	*this = src;
+unsigned int Span::shortestSpan() const {
+	if (_numbers.size() < 2) {
+		throw NotEnoughNumbersException();
+	}
+	std::vector<int> sorted_numbers(_numbers);
+	std::sort(sorted_numbers.begin(), sorted_numbers.end());
+
+	unsigned int shortest_span = std::numeric_limits<int>::max();
+	for (size_t i = 0; i < _numbers.size(); i++) {
+		if (static_cast<unsigned int>(sorted_numbers[i + 1] - sorted_numbers[i]) < shortest_span) {
+			shortest_span = sorted_numbers[i + 1] - sorted_numbers[i];
+		}
+	}
+	return shortest_span;
+}
+
+unsigned int Span::longestSpan() const {
+	if (_numbers.size() < 2) {
+		throw NotEnoughNumbersException();
+	}
+	std::vector<int>::const_iterator lowest = std::min_element(_numbers.begin(), _numbers.end());
+	std::vector<int>::const_iterator highest = std::max_element(_numbers.begin(), _numbers.end());
+
+	return (*highest - *lowest);
+}
+
+void Span::addRange(std::vector<int>::iterator begin, std::vector<int>::iterator end) {
+	if (std::distance(begin, end) + _numbers.size() > _size) {
+		throw IsFullException();
+	}
+	_numbers.insert(_numbers.end(), begin, end);
+}
+
+
+Span::Span() :
+		_size(0) {}
+
+Span::Span(unsigned int size) :
+		_size(size) {
+	_numbers.reserve(size);
 }
 
 Span::~Span() {}
 
-Span &Span::operator=(Span const &rhs) {
+
+Span::Span(const Span &other) :
+		_size(other._size),
+		_numbers(other._numbers) {}
+
+
+
+Span Span::operator=(const Span &rhs) {
 	if (this != &rhs) {
-		_N = rhs._N;
 		_size = rhs._size;
-		_vector = rhs._vector;
+		_numbers = rhs._numbers;
 	}
 	return *this;
 }
 
-void Span::addNumber(int n) {
-	if (_size >= _N)
-		throw std::out_of_range("\033[1;31mSpan has no room\033[0m");
-	_vector.push_back(n);
-	_size++;
+int Span::operator[](unsigned int pos) {
+	return (_numbers.at(pos));
 }
 
-void Span::addRange(int start, unsigned int count) {
-    if (_size + count > _N)
-        throw std::range_error("\033[1;31mRange exceeds the limit\033[0m");
-    for (unsigned int i = 0; i < count; i++)
-		_vector.push_back(start + i);
-    _size += count;
+const char *Span::IsFullException::what() const throw() {
+	return "Container is full.";
 }
 
-int Span::shortestSpan(void) {
-    if (_size < 1)
-        throw std::range_error("\033[1;31mSpan is empty\033[0m");
-	else if (_size == 1)
-		throw std::range_error("\033[1;31mSpan has only one element\033[0m");
-    std::vector<int> sortedVector = _vector;
-    std::sort(sortedVector.begin(), sortedVector.end());
-
-    int shortest = sortedVector[1] - sortedVector[0];
-    for (unsigned int i = 1; i < _size - 1; ++i) {
-        int diff = sortedVector[i + 1] - sortedVector[i];
-        if (diff < shortest) {
-            shortest = diff;
-        }
-    }
-    return shortest;
-}
-
-int Span::longestSpan(void) {
-	if (_size < 1)
-		throw std::range_error("\033[1;31mSpan is empty or has only one element\033[0m");
-	else if (_size == 1)
-		throw std::range_error("\033[1;31mSpan has only one element\033[0m");
-	std::sort(_vector.begin(), _vector.end());
-	return _vector[_size - 1] - _vector[0];
+const char *Span::NotEnoughNumbersException::what() const throw() {
+	return "Only one or zero values in container.";
 }
