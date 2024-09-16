@@ -1,118 +1,162 @@
-#include "Span.hpp"
 #include <iostream>
 #include <vector>
-#include <cstdlib> // For rand() and srand()
-#include <ctime>   // For time()
+#include <ctime> // Include ctime for std::srand and std::rand
+#include "Span.hpp"
 
-void baseTest() {
-    Span sp = Span(5);
-    std::cout << "Adding 5" << std::endl;
-    sp.addNumber(5);
-    std::cout << "Adding 3" << std::endl;
-    sp.addNumber(3);
-    std::cout << "Adding 17" << std::endl;
-    sp.addNumber(17);
-    std::cout << "Adding 9" << std::endl;
-    sp.addNumber(9);
-    std::cout << "Adding 11" << std::endl;
-    sp.addNumber(11);
 
-    std::cout << "Shortest span: " << sp.shortestSpan() << std::endl;
-    std::cout << "Longest span: " << sp.longestSpan() << std::endl;
-}
-
-// void (const Span &sp) {
-//     const std::vector<int> &vec = sp.getVector();
-//     for (std::vector<int>::const_iterator it = vec.begin(); it != vec.end(); ++it)
-//         std::cout << *it << " ";
-//     std::cout << std::endl;
-// }
-
-void addRangeTest() {
-    Span sp = Span(45);
+// Function to print the contents of the Span
+void printSpan(const Span &span) {
     try {
-        std::cout << "Adding range 0-10" << std::endl;
-        sp.addRange(0, 10);
-        std::cout << "Adding range 5-5" << std::endl;
-        sp.addRange(5, 5);
-        std::cout << "Adding range 5-44" << std::endl;
-        sp.addRange(5, 44);
-    } catch (std::exception &e) {
-        std::cout << e.what() << std::endl;
-    }
-
-    std::cout << "Shortest span: " << sp.shortestSpan() << std::endl;
-    std::cout << "Longest span: " << sp.longestSpan() << std::endl;
-}
-
-void test10000() {
-    Span sp = Span(10000);
-    srand(time(0));
-    try {
-        for (int i = 0; i < 10000; ++i) {
-            sp.addNumber(rand() % 10000);
-        }
-        std::cout << "Added 10,000 random numbers." << std::endl;
-        std::cout << "Shortest span: " << sp.shortestSpan() << std::endl;
-        std::cout << "Longest span: " << sp.longestSpan() << std::endl;
-    } catch (std::exception &e) {
-        std::cout << e.what() << std::endl;
+        std::cout << "Shortest span: " << span.shortestSpan() << std::endl;
+        std::cout << "Longest  span: " << span.longestSpan() << std::endl;
+    } catch (const std::exception &e) {
+        std::cout << "\033[1;31mError: " << e.what() << RESET << std::endl;
     }
 }
-void testLarge() {
-    Span sp = Span(100000);
-    srand(time(0));
+
+// Function to print the numbers in a vector
+void printVector(const std::vector<int> &vec) {
+    std::cout << "Numbers in the vector: ";
+    for (std::vector<int>::const_iterator it = vec.begin(); it != vec.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+}
+
+void testEmptySpan() {
+    std::cout << YELLOW "testEmptySpan" RESET << std::endl;
+
+    Span sp(0);
     try {
-        for (int i = 0; i < 100000; ++i) {
-            sp.addNumber(rand() % 100000);
-        }
-        std::cout << "Added 100,000 random numbers." << std::endl;
-        std::cout << "Shortest span: " << sp.shortestSpan() << std::endl;
-        std::cout << "Longest span: " << sp.longestSpan() << std::endl;
-    } catch (std::exception &e) {
-        std::cout << e.what() << std::endl;
+        sp.shortestSpan();
+    } catch (const std::exception &e) {
+        std::cout << "\033[1;31mExpected exception: " << e.what() << RESET << std::endl;
+    }
+
+    try {
+        sp.longestSpan();
+    } catch (const std::exception &e) {
+        std::cout << "\033[1;31mExpected exception: " << e.what() << RESET << std::endl;
     }
 }
-void edgeCaseTest() {
-    Span sp = Span(2);
+
+void testContainerFullException() {
+    std::cout << YELLOW "testContainerFullException" RESET << std::endl;
+
+    Span sp(5);
     try {
         sp.addNumber(1);
-        sp.addNumber(100);
-        std::cout << "Shortest span: " << sp.shortestSpan() << std::endl;
-        std::cout << "Longest span: " << sp.longestSpan() << std::endl;
-    } catch (std::exception &e) {
-        std::cout << e.what() << std::endl;
+        sp.addNumber(2);
+        sp.addNumber(3);
+        sp.addNumber(4);
+        sp.addNumber(5);
+        sp.addNumber(6); // This should throw the ContainerFull exception
+    } catch (const Span::ContainerFull &e) {
+        std::cout << "\033[1;31mExpected exception: " << e.what() << RESET << std::endl;
+    }
+}
+
+void testSingleElement() {
+    std::cout << YELLOW "testSingleElement" RESET << std::endl;
+
+    Span sp(1);
+    sp.addNumber(42);
+
+    try {
+        sp.shortestSpan();
+    } catch (const std::exception &e) {
+        std::cout << "\033[1;31mExpected exception: " << e.what() << RESET << std::endl;
     }
 
-    Span sp2 = Span(1);
     try {
-        sp2.addNumber(1);
-        std::cout << "Shortest span: " << sp2.shortestSpan() << std::endl; // Should throw an exception
-    } catch (std::exception &e) {
-        std::cout << e.what() << std::endl;
+        sp.longestSpan();
+    } catch (const std::exception &e) {
+        std::cout << "\033[1;31mExpected exception: " << e.what() << RESET << std::endl;
     }
+}
+
+void testTwoElements() {
+    std::cout << YELLOW "testTwoElements" RESET << std::endl;
+
+    Span sp(2);
+    sp.addNumber(1);
+    sp.addNumber(100);
+
+    printSpan(sp);
+}
+
+void testMultipleElements() {
+    std::cout << YELLOW "testMultipleElements" RESET << std::endl;
+
+    Span sp(5);
+    sp.addNumber(5);
+    sp.addNumber(3);
+    sp.addNumber(17);
+    sp.addNumber(9);
+    sp.addNumber(11);
+
+    printSpan(sp);
+}
+
+void testLargeNumberOfElements() {
+    std::cout << YELLOW "testLargeNumberOfElements" RESET << std::endl;
+
+    Span sp(10000);
+    std::vector<int> range;
+    range.reserve(10000);
+
+    std::srand(::time(NULL));
+
+    for (int i = 0; i < 10000; ++i) {
+        range.push_back(std::rand());
+    }
+
+    sp.addRange(range.begin(), range.end());
+    //printVector(range);
+    printSpan(sp);
+}
+
+void testSmallRangeOfElements() {
+    std::cout << YELLOW "testSmallRangeOfElements" RESET << std::endl;
+
+    Span sp(10);
+    std::vector<int> range;
+    range.reserve(10);
+
+    std::srand(::time(NULL));
+
+    for (int i = 0; i < 10; ++i) {
+        range.push_back(std::rand() % 100); // Small range of integers (0-99)
+    }
+
+    printVector(range);
+
+    sp.addRange(range.begin(), range.end());
+    printSpan(sp);
+}
+
+void testDuplicateElements() {
+    std::cout << YELLOW "testDuplicateElements" RESET << std::endl;
+
+    Span sp(5);
+    sp.addNumber(42);
+    sp.addNumber(42);
+    sp.addNumber(42);
+    sp.addNumber(42);
+    sp.addNumber(42);
+
+    printSpan(sp);
 }
 
 int main() {
-    std::cout << "Base Test:" << std::endl;
-    baseTest();
-    std::cout << std::endl;
 
-    std::cout << "Add Range Test:" << std::endl;
-    addRangeTest();
-    std::cout << std::endl;
-
-    std::cout << "Large Test (10,000 numbers):" << std::endl;
-    test10000();
-    std::cout << std::endl;
-
-    std::cout << "Large Test (100,000 numbers):" << std::endl;
-    testLarge();
-    std::cout << std::endl;
-
-    std::cout << "Edge Case Test:" << std::endl;
-    edgeCaseTest();
-    std::cout << std::endl;
-
+    testEmptySpan();
+    testContainerFullException();
+    testSingleElement();
+    testTwoElements();
+    testMultipleElements();
+    testLargeNumberOfElements();
+    testSmallRangeOfElements();
+    testDuplicateElements();
     return 0;
 }
