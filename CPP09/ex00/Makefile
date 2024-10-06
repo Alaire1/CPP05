@@ -36,6 +36,17 @@ fclean: clean
 	@$(RM) $(TARGET)
 	@echo "$(GREEN)Removed executable $(TARGET).$(RESET)"
 
+
+run1: $(TARGET)
+	@./$(TARGET) inputSubject.txt
+
+run2: $(TARGET)
+	@./$(TARGET) input.txt
+
+#file doesnt exist
+run3 : $(TARGET)
+	@./$(TARGET) input2.txt
+
 re: fclean all
 
 .PHONY: all clean fclean re

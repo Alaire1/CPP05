@@ -27,10 +27,21 @@ std::vector<std::string> RPN::tokenize(const std::string &input) {
         tokens.push_back(token);
     }
     return tokens;
+} 
+bool isValidNegativeNum(const std::string &token) {
+    if (token.size() > 1 && token[0] == '-') {
+        for (size_t i = 1; i < token.size(); i++) {
+            if (!std::isdigit(token[i])) {
+                throw std::runtime_error(RED "Invalid number: " END + token);
+            }
+        }
+        return true;
+    }
+    return false;
 }
 
 void RPN::processToken(const std::string &token) {
-    if (std::isdigit(token[0]) || (token[0] == '-' && token.size() > 1)) {
+    if (std::isdigit(token[0]) || (isValidNegativeNum(token))) {
         std::istringstream iss(token);
         double num;
         iss >> num;
@@ -38,16 +49,18 @@ void RPN::processToken(const std::string &token) {
     } else if (token == "+" || token == "-" || token == "*" || token == "/") {
         performOperation(token);
     } else {
-        throw std::runtime_error("Invalid token in RPN expression");
+        throw std::runtime_error(RED "Invalid token in RPN expression" END);
     }
 }
 
 void RPN::performOperation(const std::string &operation) {
     if (_stack.size() < 2) {
-        throw std::runtime_error("Invalid RPN expression");
+        throw std::runtime_error(RED "Invalid RPN expression" END);
     }
-    double b = _stack.top(); _stack.pop();
-    double a = _stack.top(); _stack.pop();
+    double b = _stack.top();
+    _stack.pop();
+    double a = _stack.top();
+     _stack.pop();
     if (operation == "+") {
         _stack.push(a + b);
     } else if (operation == "-") {
@@ -55,21 +68,19 @@ void RPN::performOperation(const std::string &operation) {
     } else if (operation == "*") {
         _stack.push(a * b);
     } else if (operation == "/") {
-        if (b == 0) {
-            throw std::runtime_error("Division by zero");
+        if (b == 0 || a == 0) {
+            throw std::runtime_error( RED "Division by zero" END);
         }
         _stack.push(a / b);
     }
 }
 
-double RPN::evaluateRPN(const std::string &input) {
+double RPN::calculateRPN(const std::string &input) {
     std::vector<std::string> tokens = tokenize(input);
-
     for (std::vector<std::string>::const_iterator it = tokens.begin(); it != tokens.end(); ++it) {
          processToken(*it);
     }
     if (_stack.size() != 1)
-        throw std::runtime_error("Invalid RPN expression");
-
+        throw std::runtime_error( RED "Invalid RPN expression" END);
     return _stack.top();
 }

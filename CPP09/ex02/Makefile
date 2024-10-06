@@ -2,8 +2,8 @@ CXX      = c++
 CXXFLAGS = -Wextra -Wall -Werror -std=c++98 -pedantic
 LDFLAGS  = -g -fsanitize=address
 
-TARGET   = mergeMe
-SOURCES  =  main.cpp
+TARGET   = PMergeMe
+SOURCES  =  main.cpp PmergeMe.cpp
 OBJDIR   = obj
 OBJECTS  = $(addprefix $(OBJDIR)/, $(SOURCES:.cpp=.o))
 DEPS     = $(OBJECTS:.o=.d)

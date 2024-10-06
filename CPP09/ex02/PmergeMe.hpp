@@ -1,59 +1,30 @@
-#pragma once
+#pragma  once
 
 #include <iostream>
-#include <vector>
+#include <iomanip>
+#include <iterator>
+#include <string>
 #include <deque>
+#include <list>
+#include <vector>
 #include <ctime>
-#include <algorithm>
-#include <algorithm>
-#include <typeinfo>
+#include <deque>
+#include <algorithm> // for std::inplace_merge
+#include <iterator>  // for std::distance, std::advance
+#include <cctype>    // for std::isdigit
+#include <cstdlib>   // for std::atoi
 
-// Swap function
-template <typename Container>
-void swap(Container& container, int i) {
-    std::swap(container[i], container[i + 1]);
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
+#define YELLOW "\033[0;33m"
+#define END "\033[0m"
+
+template <typename T>
+void swap(T& container, int i){
+    int temp = container[i];
+    container[i] = container[i + 1];
+    container[i + 1] = temp;
 }
 
-// Ford-Johnson Sort
-template <typename Container>
-void fordJohnsonSort(Container& container, int low, int high) {
-    if (low >= high)
-        return;
-    int mid = (low + high) / 2;
-    for (int i = low; i < high; i += 2)
-        if (container[i] > container[i + 1])
-            swap(container, i);
-    fordJohnsonSort(container, low, mid);
-    for (int i = mid + 1; i <= high; i++) {
-        int key = container[i];
-        int j = i - 1;
-        while (j >= low && container[j] > key) {
-            container[j + 1] = container[j];
-            j--;
-        }
-        container[j + 1] = key;
-    }
-}
-
-// Sort function
-template <typename Container>
-void sortContainer(Container& container, int size) {
-    std::clock_t start = std::clock();
-    std::cout << "before: ";
-    for (int i = 0; i < size; i++)
-        std::cout << container[i] << " ";
-    std::cout << std::endl;
-
-    fordJohnsonSort(container, 0, size - 1);
-
-    std::cout << "after: ";
-    for (int i = 0; i < size; i++)
-        std::cout << container[i] << " ";
-    std::cout << std::endl;
-
-    std::clock_t end = std::clock();
-    double elapsed = static_cast<double>(end - start) / CLOCKS_PER_SEC;
-    std::cout << "Time to process a range of " << size << " elements with "
-              << (typeid(Container) == typeid(std::vector<int>) ? "std::vector" : "std::deque")
-              << ": " << std::fixed << elapsed << " seconds" << std::endl;
-}
+void sortlist(std::list<int> &Container, int size);
+void	sortdeq(std::deque<int>& Container, int size);
