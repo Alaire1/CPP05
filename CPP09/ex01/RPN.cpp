@@ -19,8 +19,8 @@ RPN &RPN::operator=(const RPN &rpn) {
     return *this;
 }
 
-std::vector<std::string> RPN::tokenize(const std::string &input) {
-    std::vector<std::string> tokens;
+std::list<std::string> RPN::tokenize(const std::string &input) {
+    std::list<std::string> tokens;
     std::istringstream iss(input);
     std::string token;
     while (iss >> token) {
@@ -74,13 +74,29 @@ void RPN::performOperation(const std::string &operation) {
         _stack.push(a / b);
     }
 }
-
 double RPN::calculateRPN(const std::string &input) {
-    std::vector<std::string> tokens = tokenize(input);
-    for (std::vector<std::string>::const_iterator it = tokens.begin(); it != tokens.end(); ++it) {
-         processToken(*it);
+    std::list<std::string> tokens = tokenize(input);
+    if (tokens.size() == 1) {
+        std::string token = tokens.front();
+        if (std::isdigit(token[0]) || isValidNegativeNum(token)) {
+            throw std::runtime_error(RED "Invalid RPN expression: Only a single number given" END);
+        }
     }
-    if (_stack.size() != 1)
-        throw std::runtime_error( RED "Invalid RPN expression" END);
+    for (std::list<std::string>::const_iterator it = tokens.begin(); it != tokens.end(); ++it) {
+        processToken(*it);
+    }
+    if (_stack.size() != 1) {
+        throw std::runtime_error(RED "Invalid RPN expression" END);
+    }
+
     return _stack.top();
 }
+// double RPN::calculateRPN(const std::string &input) {
+//     std::list<std::string> tokens = tokenize(input);
+//     for (std::list<std::string>::const_iterator it = tokens.begin(); it != tokens.end(); ++it) {
+//         processToken(*it);
+//     }
+//     if (_stack.size() != 1)
+//         throw std::runtime_error(RED "Invalid RPN expression" END);
+//     return _stack.top();
+// }

@@ -22,6 +22,7 @@ valid_test_cases=(
 )
 
 invalid_test_cases=(
+    "2"
     "3 +"
     "3 4 5 +"
     "3 4 &"

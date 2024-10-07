@@ -37,11 +37,13 @@ run_test "4" "9" "0" "8" "7" "7" "1" "2"
 run_test "9" "1" "9" "8" "47" "2" "3" "88" "21" "4"
 #run_test `shuf -i 1-100000 -n 3000 | tr "\n" " "`
 
-echo "Test with invalid arguments:"
+echo -e "${BLUE}Test with invalid arguments:${RESET}"
 run_test "a"
 run_test "a" "b" "i" "u"
 run_test "-1" "2" "3" "-4" "5" "6" "7" "8" "9" "10" "-34"
 run_test "*" "2" "3"
 
-echo "Test with already sorted values:"
+echo -e "${BLUE}Test with sorted arguments:${RESET}"
 run_test "1" "2" "3" "4" "5" "6" "7" "8" "9" "10"
+run_test "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "13" "14" "15" "16" "17" "18" "19" "20" 
+#run_test `seq 1 20000`

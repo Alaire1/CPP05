@@ -3,7 +3,7 @@ CXXFLAGS = -Wextra -Wall -Werror -std=c++98 -pedantic
 LDFLAGS  = -g -fsanitize=address
 
 TARGET   = RPN
-SOURCES  = RPN.cpp main.cpp
+SOURCES  = main.cpp RPN.cpp
 OBJDIR   = obj
 OBJECTS  = $(addprefix $(OBJDIR)/, $(SOURCES:.cpp=.o))
 DEPS     = $(OBJECTS:.o=.d)

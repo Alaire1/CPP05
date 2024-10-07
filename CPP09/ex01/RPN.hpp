@@ -2,7 +2,7 @@
 
 #include <string>
 #include <stack>
-#include <vector>
+#include <list>
 #include <sstream> 
 #include <cctype>
 #include <stdexcept>
@@ -32,5 +32,5 @@ public:
     RPN &operator=(const RPN &rpn);
 
     double calculateRPN(const std::string &input);
-    std::vector<std::string> tokenize(const std::string &input);
+    std::list<std::string> tokenize(const std::string &input);
 };
