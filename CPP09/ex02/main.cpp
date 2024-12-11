@@ -1,4 +1,4 @@
-#include "PmergeMe.hpp"
+#include "Sort.hpp"
 
 
 void checkValues(int ac, char **av){
@@ -26,7 +26,7 @@ void checkValues(int ac, char **av){
         return;
     }
     sortvect(vectContainer, ac - 1);
-	sortdeq(deqContainer, ac - 1);
+	//sortdeq(deqContainer, ac - 1);
 }
 
 int main(int ac, char **av){

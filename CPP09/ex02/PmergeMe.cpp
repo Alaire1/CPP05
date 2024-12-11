@@ -1,6 +1,14 @@
 #include "PmergeMe.hpp"
 
+void printContainer(const std::vector<int>& container, int k) {
+    for (std::vector<int>::const_iterator it = container.begin(); it != container.end(); ++it) {
+        std::cout << "iter:"<< k << "values:" << *it << " ";
+    }
+    std::cout << std::endl;
+}
+
 void fordJohnsonSortvect(std::vector<int>& container, int first, int last){
+    int k = 0;
     if (first >= last)
         return;
     int mid = (first + last) / 2;
@@ -8,6 +16,8 @@ void fordJohnsonSortvect(std::vector<int>& container, int first, int last){
         if (container[i] > container[i + 1])
             swap(container, i);
     fordJohnsonSortvect(container, first, mid);
+    k++;
+    printContainer(container, k);
     for (int i = mid + 1; i <= last; i++){
         int key = container[i];
         int j = i - 1;

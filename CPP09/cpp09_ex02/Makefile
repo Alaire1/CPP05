@@ -1,9 +1,9 @@
 CXX      = c++
-CXXFLAGS = -Wextra -Wall -Werror -std=c++98 -pedantic
-LDFLAGS  = -g -fsanitize=address
+CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -O3
+# LDFLAGS  = -g -fsanitize=address
 
-TARGET   = bureaucrats
-SOURCES  = Bureaucrat.cpp main.cpp
+TARGET   = PMergeMe
+SOURCES  = main.cpp VectorSort.cpp DequeSort.cpp  
 OBJDIR   = obj
 OBJECTS  = $(addprefix $(OBJDIR)/, $(SOURCES:.cpp=.o))
 DEPS     = $(OBJECTS:.o=.d)
@@ -16,7 +16,7 @@ RESET    = \033[0m
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CXX) $(LDFLAGS) $^ -o $@
+	@$(CXX) $^ -o $@
 	@echo "$(GREEN)Compiled $(TARGET) successfully.$(RESET)"
 
 -include $(DEPS)
